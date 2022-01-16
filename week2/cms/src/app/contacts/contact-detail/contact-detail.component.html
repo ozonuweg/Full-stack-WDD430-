@@ -1,0 +1,18 @@
+<div class="panel panel-default contact-detail-panel">
+    <div class="panel-heading col-sm-12" style="height: 90px;">
+        <h3>{{retrieveContacts.name}}</h3>
+        <div class="col-sm-4 contact-list-imgs">
+            <img class="img-responsive" src="{{ retrieveContacts.imageUrl }}" alt="{{ retrieveContacts.name }}">
+        </div>
+        <span class="pull-right">
+        <div class="contact-detail-btns">
+            <a href="#" role="button" class="btn btn-primary">Edit</a>
+            <a href="#" role="button" class="btn btn-danger">Delete</a>
+        </div>
+        </span>
+    </div>
+    <div class="panel-body">
+        <p>Email: {{retrieveContacts.email}}</p>
+        <p>Phone: {{retrieveContacts.phone}}</p>
+    </div>
+</div>
