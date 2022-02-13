@@ -1,4 +1,6 @@
-<a 
+<a
+routerLinkActive="active"
+[routerLink]="[document.id]"
 (click)="onSelectedDocument()"
 class="list-group-item clearfix documentDiv" >
     {{ document.name }}
