@@ -8,7 +8,7 @@ export const MOCKCONTACTS: Contact[] = [
     name: 'Glory Ozonuwe',
     email: 'ozo18001@byui.edu',
     phone: '208-357-8079',
-    imageUrl: '../../assets/images/glory.jpg',
+    imageUrl: '../../assets/images/Glory.jpeg',
     group: null
   },
   // index 0

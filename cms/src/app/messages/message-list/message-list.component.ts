@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Message } from '../message.model';
 import { MessageService } from '../message.service';
 
@@ -8,6 +8,7 @@ import { MessageService } from '../message.service';
   styleUrls: ['./message-list.component.css']
 })
 export class MessageListComponent implements OnInit {
+  @Input('sent_message') element: Message;
   messages: Message[] = [];
 
   constructor(private messageService: MessageService) { }

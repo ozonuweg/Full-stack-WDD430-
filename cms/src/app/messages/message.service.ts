@@ -1,4 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Subject } from 'rxjs';
+
 import { Message } from './message.model';
 import { MOCKMESSAGES } from './MOCKMESSAGES';
 
@@ -6,19 +9,56 @@ import { MOCKMESSAGES } from './MOCKMESSAGES';
   providedIn: 'root'
 })
 export class MessageService {
-  messagesChangedEvent = new EventEmitter<Message[]>();
-  
   private messages: Message[] = [];
+  messagesChangedEvent = new EventEmitter<Message[]>();
+  messageListChangedEvent = new Subject<Message[]>();
+  maxMessageId: number;
 
-  constructor() {
-    this.messages = MOCKMESSAGES;
+  constructor(private http: HttpClient) {
+    // this.messages = MOCKMESSAGES;
   }
 
   getMessages(): Message[] {
+    this.http.get<Message[]>('https://cmsproject-98236-default-rtdb.firebaseio.com/messages.json')
+    .subscribe({
+      next: (messages: Message[]) => {
+        this.messages = messages;
+        this.maxMessageId = this.getMaxId();
+        this.messages.sort(function (a, b) {
+          if (a.sender < b.sender) { return -1 }
+          else if (a.sender > b.sender) { return 1 }
+          else { return 0 }
+        });
+        let messagesListClone = this.messages.slice();
+        this.messagesChangedEvent.next(messagesListClone);
+      },
+
+      error: (error: any) => {
+        console.log(error);
+      }
+    });
     return this.messages.slice();
   }
 
+  storeMessages() {
+    let getMessageList = JSON.stringify(this.messages);
+    let httpHeaders: HttpHeaders = new HttpHeaders();
+    httpHeaders.set('Content-Type', 'application/json');
+
+    this.http.put(
+      'https://cmsproject-98236-default-rtdb.firebaseio.com/messages.json',
+      getMessageList, { 'headers': httpHeaders })
+      .subscribe(() => {
+        let messageListClone = this.messages.slice();
+        this.messagesChangedEvent.next(messageListClone);
+      });
+  }
+
   getMessage(id: string): Message {
+    if (!this.messages) {
+      return null;
+    }
+    
     for (let message of this.messages) {
       if (message.id === id) {
         return message;
@@ -27,8 +67,20 @@ export class MessageService {
     return null;
   }
 
+  getMaxId(): number {
+    let maxId = 0;
+    for (let message of this.messages) {
+      let currentId = parseInt(message.id);
+      if (currentId > maxId) {
+        maxId = currentId;
+      }
+    }
+    return maxId;
+  }
+
   addMessage(messages: Message){
     this.messages.push(messages);
-    this.messagesChangedEvent.emit(this.messages.slice());
+    // this.storeMessages(this.messages.slice());
+    this.storeMessages();
   }
 }
