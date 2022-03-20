@@ -19,7 +19,7 @@ export class MessageService {
   }
 
   getMessages(): Message[] {
-    this.http.get<Message[]>('https://cmsproject-98236-default-rtdb.firebaseio.com/messages.json')
+    this.http.get<Message[]>('http://localhost:3000/messages')
     .subscribe({
       next: (messages: Message[]) => {
         this.messages = messages;
@@ -40,19 +40,24 @@ export class MessageService {
     return this.messages.slice();
   }
 
-  storeMessages() {
-    let getMessageList = JSON.stringify(this.messages);
-    let httpHeaders: HttpHeaders = new HttpHeaders();
-    httpHeaders.set('Content-Type', 'application/json');
-
-    this.http.put(
-      'https://cmsproject-98236-default-rtdb.firebaseio.com/messages.json',
-      getMessageList, { 'headers': httpHeaders })
-      .subscribe(() => {
-        let messageListClone = this.messages.slice();
-        this.messagesChangedEvent.next(messageListClone);
-      });
+  sortAndSend() {
+    this.messages.sort();
+    this.messagesChangedEvent.next(this.messages.slice());
   }
+
+  // storeMessages() {
+  //   let getMessageList = JSON.stringify(this.messages);
+  //   let httpHeaders: HttpHeaders = new HttpHeaders();
+  //   httpHeaders.set('Content-Type', 'application/json');
+
+  //   this.http.put(
+  //     'https://cmsproject-98236-default-rtdb.firebaseio.com/messages.json',
+  //     getMessageList, { 'headers': httpHeaders })
+  //     .subscribe(() => {
+  //       let messageListClone = this.messages.slice();
+  //       this.messagesChangedEvent.next(messageListClone);
+  //     });
+  // }
 
   getMessage(id: string): Message {
     if (!this.messages) {
@@ -78,9 +83,29 @@ export class MessageService {
     return maxId;
   }
 
-  addMessage(messages: Message){
-    this.messages.push(messages);
-    // this.storeMessages(this.messages.slice());
-    this.storeMessages();
+  addMessage(message: Message) {
+    if (!message) {
+      return;
+    }
+
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+    // add to database
+    this.http.post<{ message: Message }>('http://localhost:3000/messages',
+      message,
+      { headers: headers })
+      .subscribe(
+        (responseData) => {
+          // add new message to messages
+          this.messages.push(responseData.message);
+          this.sortAndSend();
+        }
+      );
   }
+
+  // addMessage(messages: Message){
+  //   this.messages.push(messages);
+  //   // this.storeMessages(this.messages.slice());
+  //   this.storeMessages();
+  // }
 }

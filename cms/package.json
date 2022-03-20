@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "nodemon server.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -23,6 +23,8 @@
     "bootstrap": "^3.4.1",
     "cookie-parser": "^1.4.6",
     "express": "^4.17.3",
+    "mongoose": "^6.2.7",
+    "mongoose-unique-validator": "^3.0.0",
     "morgan": "^1.10.0",
     "ng2-dnd": "^5.0.2",
     "rxjs": "~7.4.0",
@@ -41,6 +43,7 @@
     "karma-coverage": "~2.1.0",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "nodemon": "^2.0.15",
     "typescript": "~4.5.2"
   }
 }
