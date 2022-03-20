@@ -7,6 +7,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 
+require('dotenv').config();
+const MONGODB_URI = `${process.env.MONGODB_URI}`;
+
 // import the routing file to handle the default (index) route
 var index = require('./server/routes/app');
 
@@ -54,7 +57,7 @@ app.use('/documents', documentsRoutes);
 
 // establish a connection to the mongo database
 // mongoose.connect('mongodb://localhost:27017/cms',
-mongoose.connect('mongodb+srv://admin-user:12345@cse341cluster.lkzbg.mongodb.net/cms?retryWrites=true&w=majority',
+mongoose.connect(MONGODB_URI,
    { useNewUrlParser: true }, (err, res) => {
       if (err) {
          console.log('Connection failed: ' + err);
