@@ -1,0 +1,30 @@
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul li a {
+  background-color: rgb(233, 64, 64);
+  color: white;
+}
+ul li a:hover {
+  color: rgb(233, 64, 64);
+  background-color: white;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(233, 64, 64);
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+span.header a {
+  font-size: 3rem;
+}
+span.header {
+  padding: 40px;
+}

@@ -1,0 +1,22 @@
+mat-form-field,
+textarea {
+  width: 100%;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+.diaryForm {
+  background-color: black;
+}
+
+.diaryFormBox {
+  background-color: black;
+  border: 55px solid #000;
+  border-radius: 25px;
+}
+.save:hover {
+  background-color: cadetblue;
+  color: cornsilk;
+}

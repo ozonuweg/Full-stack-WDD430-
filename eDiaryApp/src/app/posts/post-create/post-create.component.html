@@ -1,0 +1,33 @@
+<mat-card class="diaryFormBox">
+  <mat-spinner color="accent" *ngIf="isLoading"></mat-spinner>
+  <form (submit)="onSavePost(postForm)" class="diaryForm" #postForm="ngForm" *ngIf="!isLoading">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        name="title"
+        [ngModel]="post?.title"
+        required
+        minlength="3"
+        placeholder="Your Diary Title"
+        #title="ngModel">
+      <mat-error *ngIf="title.invalid">Please enter a Diary title.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea
+        matInput
+        rows="4"
+        name="content"
+        [ngModel]="post?.content"
+        required
+        placeholder="Notes Section"
+        #content="ngModel"></textarea>
+      <mat-error *ngIf="content.invalid">Please enter a Diary post description.</mat-error>
+    </mat-form-field>
+    <button
+    class="save"
+      mat-raised-button
+      color="accent"
+      type="submit">Save Diary Post</button>
+  </form>
+</mat-card>

@@ -1,0 +1,30 @@
+:host {
+  display: block;
+  margin-top: 1rem;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+.info-text {
+  text-align: center;
+}
+
+.list {
+  background-color: rgb(15, 15, 14);
+  color: cornsilk;
+}
+
+.post-header {
+  font-size: 1.5rem;
+}
+
+.delete:hover {
+  background-color: red;
+  color: white
+}
+.edit:hover {
+  background-color: cadetblue;
+  color: white;
+}
